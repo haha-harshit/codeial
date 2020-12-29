@@ -2,4 +2,5 @@ body{
     margin: 0px;
     text-align: center;
     background-color: blueviolet;
+    user-select: none;
 }

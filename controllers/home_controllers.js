@@ -4,27 +4,22 @@ const User = require("../models/user");
 const { use } = require("../routes");
 
 module.exports.home = function(req, res){
+    if(req.isAuthenticated()){
+        return res.redirect('user/homepage');
+    }
     console.log(req.cookies);
     // res.cookie('user_id', 25);
     return res.render('home', {
-        title: "Homepage"
+        title: "Codeial"
     });
 };
 
-module.exports.posts = function(req, res){
-    return res.render('posts', {
-        title: 'Your Posts'
-    });
-};
-
-module.exports.friends = function(req, res){
-    return res.render('friends', {
-        title: 'Your Friends'
-    });
-};
 
 //sign up
 module.exports.sign_up = function(req, res){
+    if(req.isAuthenticated()){
+        return res.redirect('/user/profile');
+    }
     return res.render('sign_up', {
         title: 'Codeial | Create Account'
     });
@@ -32,10 +27,29 @@ module.exports.sign_up = function(req, res){
 
 //sign in and creating session
 module.exports.log_in = function(req, res){
+    if (req.isAuthenticated()){
+        return res.redirect('user/profile');
+    }
     return res.render('log_in', {
         title: 'Codeial | Login'
     })
 }
+module.exports.create_Session = function(req, res){
+    if(req.isAuthenticated()){
+        return res.redirect('user/homepage');
+    }
+    // return res.render('user_home',{
+    //     title: req.user.name
+    // });
+};
+
+
+//   destroy session  ||  Log-out
+module.exports.log_out = function(req, res){
+    req.logout();
+    return res.redirect('/');
+}
+
 
 //get sign-up data
 module.exports.create_account = function(req, res){

@@ -1,6 +1,7 @@
 
 // const User = require("../models")
 const User = require("../models/user");
+const Post = require('../models/posts');
 const { use } = require("../routes");
 
 module.exports.home = function(req, res){

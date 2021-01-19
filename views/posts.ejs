@@ -1,3 +1,18 @@
 
 
 <h1>Your Posts</h1>
+<p><%= posts.content %></p>
+<div id="my-post-list">
+    <ul>
+        <% for (post of posts){ %>
+            <li>
+                <%= post.content %>
+                <br>
+                <small>
+                    <%= post.user.name %>
+                </small>
+            </li>
+            <br>
+        <% } %>
+    </ul>
+</div>

@@ -6,7 +6,7 @@ const passport = require('passport');
 //for home
 const homeController = require('../controllers/home_controllers');
 const { route } = require('./users');
-
+ 
 
 //for posts
 // const postsController = require('../controllers/home_controllers')
@@ -26,5 +26,6 @@ router.post('/create-session', passport.authenticate(
 ), homeController.create_Session);
 
 router.use('/user', require('./users'));
+router.use('/posts', require('./posts'));
 
 module.exports = router;

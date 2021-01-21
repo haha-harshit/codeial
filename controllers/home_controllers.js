@@ -58,6 +58,7 @@ module.exports.create_account = function(req, res){
     //check for password and confirm password
     if(req.body.password != req.body.confirm_password){
         console.log("confirm password did not match your initial password!")
+        return res.redirect('back');
     };
 
     //check for email if already USED!, if not then create a new user

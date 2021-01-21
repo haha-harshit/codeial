@@ -1,17 +1,12 @@
 const express = require('express');
-
 const router = express.Router();
 const passport = require('passport');
 
 //for home
 const homeController = require('../controllers/home_controllers');
 const { route } = require('./users');
- 
 
-//for posts
-// const postsController = require('../controllers/home_controllers')
-// console.log('router loaded!');
-
+// basic initial routes
 router.get('/', homeController.home);
 router.get('/sign-up', homeController.sign_up);
 router.get('/log-in', homeController.log_in);
@@ -25,7 +20,12 @@ router.post('/create-session', passport.authenticate(
     {failureRedirect: '/log-in'}
 ), homeController.create_Session);
 
+
+// format --->> router.use('/route-name', require('./router_file'));
+// importing other routes
 router.use('/user', require('./users'));
 router.use('/posts', require('./posts'));
+router.use('/comments', require('./comments'));
 
+// exporting routes
 module.exports = router;

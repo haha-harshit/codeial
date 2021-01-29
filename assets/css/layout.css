@@ -1,7 +1,3 @@
 body {
-  margin: 0px;
-  text-align: center;
   background-color: blueviolet;
   user-select: none; }
-  body #layout-main {
-    height: 1000px; }

@@ -1,25 +1,31 @@
 
-
 <h1>Codeial - This is your Homepage</h1>
+
 <ul>
-    <li>
-        <a href="/user/profile">Your Profile</a>
-    </li>
-    <li>
-        <a href="/user/posts">Posts</a>
-    </li>
-    <li>
-        <a href="/user/friends">Friends</a>
-    </li>
-    <li>
-        <a href="/user/liked-pages">Liked Pages</a>
-    </li>
+    <%- include('_nav_tags') -%>
 </ul>
+<br>
+
+<%- include('_create_post') -%>
 
 <section id="feed-posts">
-    <h4>Posts</h4>
-    <form action="/posts/create-post" id="new-post" method="POST">
-        <textarea name="content" id="" cols="30" rows="3" placeholder="Share your thoughts..." required></textarea>
-        <input type="submit" value="Post">
-    </form>
+    
+    <br>
+    
+    <h1>Feed</h1>
+    
+    <%- include('_post_feed') -%>
+
+</section>
+
+<section id="user-friends">
+    <h1>Friends</h1>
+    <% for(u of all_users){ %>
+        <% if(u.id !== locals.user.id){ %>
+            <p>
+                <a href="/user/friends-profile/<%= u.id %>"><%= u.name%></a>
+            </p>
+        <% } %>
+    <% } %>
+
 </section>

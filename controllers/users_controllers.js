@@ -1,15 +1,45 @@
+const { user } = require("../config/mongoose");
 const Post = require("../models/posts");
 const User = require("../models/user");
 
-module.exports.homepage = function(req, res){
-    return res.render('user_home', {
-        title: 'Homepage'
-    });
+module.exports.homepage = async function(req, res){
+    try{
+        let posts = await Post.find({})
+        .populate('user')
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'user'
+            }
+        });
+    
+        let users = await User.find({})
+    
+        return res.render('user_home',{
+            title: 'Homepage',
+            posts: posts,
+            all_users: users
+        });
+    }catch(err){
+        console.log('Error', err);
+        return;
+    };
+};
+// your profile page
+module.exports.profile = function(req, res){
+        return res.render('user_profile',{
+            title: req.user.name,
+        });
 };
 
-module.exports.profile = function(req, res){
-    return res.render('user_profile',{
-        title: req.user.name
+// friend's profile page
+module.exports.friends_profile = function(req, res){
+    User.findById(req.params.id, function(err, users){
+        console.log('friends profile');
+        return res.render('friends_profile',{
+            title: users.name,
+            profile_user: users
+        });
     });
 };
 

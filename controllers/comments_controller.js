@@ -1,29 +1,53 @@
 const Comment = require('../models/comments');
 const Post = require('../models/posts');
+const User = require('../models/user');
 
-module.exports.create_comment = function(req, res){
-    Post.findById(req.body.post, function(err, post){
-        if(err){
-            console.log('Post does not exist!');
-            return res.redirect('/');
-        }
-        else{
-            Comment.create({
+const { post } = require('../routes');
+const { posts } = require('./users_controllers');
+
+module.exports.create_comment = async function(req, res){
+    try{
+        let post = await Post.findById(req.body.post);
+
+        if(post){
+            let comment = await Comment.create({
                 content: req.body.content,
                 post: req.body.post,
                 user: req.user._id
-            }, function(err, comment){
-                if(err){
-                    console.log('Error in creating Comment on this Post!');
-                    return res.redirect('back');
-                }
-                else{
-                    post.comments.push(comment);
-                    post.save();
-                    console.log('You commented!')
-                    return res.redirect('back');
-                }
             });
+
+            post.comments.push(comment);
+            post.save();
+            console.log('You commented!')
+            return res.redirect('back');
         }
-    });
+
+    }catch(err){
+        console.log('Error', err);
+        return;
+    }
 };
+
+module.exports.delete_comment = async function(req, res){
+    try{
+        let comment = await Comment.findById(req.params.id)
+        // .id means converting id in string format
+        // also the first security check that user deleting the comment is the owner of the comment
+        if ( comment.user == req.user.id || comment.post.user == req.user.id){
+            let postId = comment.post;
+
+            comment.remove();
+            
+            let post = Post.findByIdAndUpdate(postId, {$pull: {comments: req.params.id}});
+            return res.redirect('back');
+            // console.log('I deleted comment from my post!');
+        }
+        else{
+            return res.redirect('back');
+        }
+    }catch(err){
+        console.log('Error', err);        
+        return;
+    }
+
+}

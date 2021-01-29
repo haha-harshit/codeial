@@ -1,6 +1,10 @@
 const express = require('express');
+const { use } = require('passport');
 const passport = require('passport');
 const router = express.Router();
+
+router.use('/profile', require('./profile'));
+
 
 const usersController = require('../controllers/users_controllers');
 
@@ -9,6 +13,12 @@ router.get('/homepage', passport.checkAuthentication, usersController.homepage);
 
 //profile
 router.get('/profile', passport.checkAuthentication, usersController.profile);
+
+// friend's profile
+router.get('/friends-profile/:id', usersController.friends_profile);
+
+// edit-profile
+
 
 // posts
 router.get('/posts',passport.checkAuthentication, usersController.posts);

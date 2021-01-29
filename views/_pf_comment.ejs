@@ -1,0 +1,33 @@
+
+
+<div class="post-comment">
+    <!-- if user is logged in then only able to comment -->
+    <!-- 2nd check is done for more security although 1st check is enough! -->
+    <% if (locals.user){ %>
+        <form action="/comments/create-comment" method="POST">
+            <input type="text" name="content" placeholder="Comment..." required>
+            <input type="hidden" name="post" value="<%= post._id %>">
+            <input type="submit" value="Post Comment">
+        </form>
+        <div class="comment-list">
+            <ul id="comment-list-<%= post._id %>">
+                <% for (comment of post.comments){ %>
+                    <p>
+                        <small>
+                            <%= comment.user.name %>
+                        </small>
+                        <span>: </span>
+                        <%= comment.content %>
+                        <span>
+                            <% if(locals.user && locals.user.id == comment.user.id || locals.user && locals.user.id == post.user.id){ %>
+                            <small>
+                                <a href="/comments/delete-comment/<%= comment.id %>">Delete Comment</a>
+                            </small>
+                            <% } %>
+                        </span>
+                    </p>
+                <% } %>    
+            </ul>
+        </div>
+    <% } %>
+</div>

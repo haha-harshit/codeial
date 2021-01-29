@@ -14,7 +14,7 @@ module.exports.home = function(req, res){
         title: "Codeial"
     });
 };
-
+ 
 
 //sign up
 module.exports.sign_up = function(req, res){
@@ -37,6 +37,7 @@ module.exports.log_in = function(req, res){
 }
 module.exports.create_Session = function(req, res){
     if(req.isAuthenticated()){
+        req.flash('success', 'Logged in successfully!');
         return res.redirect('user/homepage');
     }
     // return res.render('user_home',{
@@ -48,6 +49,7 @@ module.exports.create_Session = function(req, res){
 //   destroy session  ||  Log-out
 module.exports.log_out = function(req, res){
     req.logout();
+    req.flash('success', 'Successfully Logged out!')
     return res.redirect('/');
 }
 

@@ -14,7 +14,15 @@
     
     <h1>Feed</h1>
     
-    <%- include('_post_feed') -%>
+    <div id="my-post-list">
+        <!-- if user is logged-in then only posts are visible -->
+        <% if(locals.user){ %>
+            <ul>
+                    <%- include('_post_feed') -%>
+                    <br>
+            </ul>
+        <% } %>
+    </div>
 
 </section>
 
@@ -29,3 +37,5 @@
     <% } %>
 
 </section>
+
+<script src="/js/home_posts.js"></script>

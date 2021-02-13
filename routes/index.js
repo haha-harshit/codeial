@@ -20,12 +20,18 @@ router.post('/create-session', passport.authenticate(
     {failureRedirect: '/log-in'}
 ), homeController.create_Session);
 
+router.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
+router.get('/callback', passport.authenticate('google', {failureRedirect: '/log-in'}),homeController.create_Session)
+
+
 
 // format --->> router.use('/route-name', require('./router_file'));
 // importing other routes
 router.use('/user', require('./users'));
 router.use('/posts', require('./posts'));
 router.use('/comments', require('./comments'));
+
+router.use('/api', require('./api/index'));
 
 // exporting routes
 module.exports = router;

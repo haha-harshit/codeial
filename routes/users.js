@@ -1,6 +1,7 @@
 const express = require('express');
 const { use } = require('passport');
 const passport = require('passport');
+const { pass } = require('../config/mongoose');
 const router = express.Router();
 
 router.use('/profile', require('./profile'));
@@ -28,5 +29,7 @@ router.get('/friends', passport.checkAuthentication, usersController.friends);
 
 //liked-pages
 router.get('/liked-pages', passport.checkAuthentication, usersController.likes);
+
+
 
 module.exports = router; 

@@ -1,27 +1,17 @@
+<% for (post of posts){ %>
+    <li id="post-<%= post._id %>">
+        <% if(locals.user && locals.user.id == post.user.id){ %>
+            <small>
+                <a class="delete-post-btn" href="/posts/delete-post/<%= post.id %>">Delete Post</a>
+            </small>
+        <% } %>
+        <%= post.content %>
+        <span> by: </span>
+        <small>
+            <%= post.user.name %>
+        </small>
+        
+        <%- include('_pf_comment') -%>
 
-
-<div class="my-post-list">
-    <!-- if user is logged-in then only posts are visible -->
-    <% if(locals.user){ %>
-        <ul>
-            <% for (post of posts){ %>
-                <li>
-                    <% if(locals.user && locals.user.id == post.user.id){ %>
-                        <small>
-                            <a href="/posts/delete-post/<%= post.id %>">Delete Post</a>
-                        </small>
-                    <% } %>
-                    <%= post.content %>
-                    <span> by: </span>
-                    <small>
-                        <%= post.user.name %>
-                    </small>
-                    
-                    <%- include('_pf_comment') -%>
-
-                </li>
-                <br>
-            <% } %>
-        </ul>
-    <% } %>
-</div>
+    </li>
+<% } %>

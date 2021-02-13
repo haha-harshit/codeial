@@ -18,12 +18,12 @@ module.exports.create_comment = async function(req, res){
 
             post.comments.push(comment);
             post.save();
-            console.log('You commented!')
+            req.flash('success', 'You commented!');
             return res.redirect('back');
         }
 
     }catch(err){
-        console.log('Error', err);
+        req.flash('error', 'Cannot comment!');
         return;
     }
 };
@@ -39,6 +39,7 @@ module.exports.delete_comment = async function(req, res){
             comment.remove();
             
             let post = Post.findByIdAndUpdate(postId, {$pull: {comments: req.params.id}});
+            req.flash('success', 'Comment Deleted!');
             return res.redirect('back');
             // console.log('I deleted comment from my post!');
         }
@@ -46,7 +47,7 @@ module.exports.delete_comment = async function(req, res){
             return res.redirect('back');
         }
     }catch(err){
-        console.log('Error', err);        
+        req.flash('error', 'Cannot delete!');        
         return;
     }
 

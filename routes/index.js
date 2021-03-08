@@ -30,6 +30,8 @@ router.get('/callback', passport.authenticate('google', {failureRedirect: '/log-
 router.use('/user', require('./users'));
 router.use('/posts', require('./posts'));
 router.use('/comments', require('./comments'));
+router.use('/likes', require('./likes'));
+
 
 router.use('/api', require('./api/index'));
 

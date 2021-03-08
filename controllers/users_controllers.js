@@ -1,6 +1,7 @@
 const { user } = require("../config/mongoose");
 const Post = require("../models/posts");
 const User = require("../models/user");
+const Comment = require('../models/comments');
 
 module.exports.homepage = async function(req, res){
     try{
@@ -11,11 +12,15 @@ module.exports.homepage = async function(req, res){
             path: 'comments',
             populate: {
                 path: 'user'
+            },
+            populate: {
+                path: 'likes'
             }
-        });
+        }).populate('comments')
+        .populate('likes');
     
         let users = await User.find({})
-    
+ 
         return res.render('user_home',{
             title: 'Homepage',
             posts: posts,

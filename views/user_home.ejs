@@ -16,12 +16,14 @@
     
     <div id="my-post-list">
         <!-- if user is logged-in then only posts are visible -->
-        <% if(locals.user){ %>
+
             <ul>
+                <% for (post of posts){ %>
                     <%- include('_post_feed') -%>
                     <br>
+                <% } %>
             </ul>
-        <% } %>
+            
     </div>
 
 </section>
@@ -38,4 +40,16 @@
 
 </section>
 
+
+<!-- importing scripts for making comments -->
+<script src="/js/home_posts_comments.js"></script>
 <script src="/js/home_posts.js"></script>
+
+<!-- for likes -->
+<script src="/js/toggle_likes.js"></script>
+<script>
+    $(' .toogle-like-btn').each(function(){
+        let self = this;
+        let toggleLike = new ToggleLike(self);
+    });
+</script>

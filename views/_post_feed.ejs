@@ -1,17 +1,52 @@
-<% for (post of posts){ %>
+
     <li id="post-<%= post._id %>">
-        <% if(locals.user && locals.user.id == post.user.id){ %>
+        <p>
+            <% if(locals.user && locals.user.id == post.user.id){ %>
+                <small>
+                    <a class="delete-post-btn" href="/posts/delete-post/<%= post.id %>">Delete Post</a>
+                </small>
+            <% } %>
+            <%= post.content %>
+            <span> by: </span>
             <small>
-                <a class="delete-post-btn" href="/posts/delete-post/<%= post.id %>">Delete Post</a>
+                <%= post.user.name %>
             </small>
-        <% } %>
-        <%= post.content %>
-        <span> by: </span>
-        <small>
-            <%= post.user.name %>
-        </small>
-        
-        <%- include('_pf_comment') -%>
+            
+            <br>
+
+            <small>
+                <% if(locals.user){ %>
+                    <a class="toggle-like-btn" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%= post._id %>&type=Post">
+                        <%= post.likes.length %> Likes
+                    </a>
+                <% }else{ %>
+                    <%= post.likes.length %> Likes
+                <% } %>
+            </small>
+        </p>    
+
+        <div class="post-comment">
+            <!-- if user is logged in then only able to comment -->
+            <!-- 2nd check is done for more security although 1st check is enough! -->
+            <% if (locals.user){ %>
+                <form id="post-<%= post._id %>-comments-form" action="/comments/create-comment" method="POST">
+                    <input type="text" name="content" placeholder="Comment..." required>
+                    <input type="hidden" name="post" value="<%= post._id %>">
+                    <input type="submit" value="Post Comment">
+                </form>
+                
+            <% } %>
+
+            <div id="comment-list">
+                <ul id="comment-list-<%= post._id %>">
+                    <% for (comment of post.comments){ %>
+
+                        <%- include('_pf_comment') -%>
+                                        
+                    <% } %>    
+                </ul>
+            </div>
+
+        </div>
 
     </li>
-<% } %>
